@@ -2,8 +2,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_ecoshops/palette.dart';
+import 'package:flutter_ecoshops/services/auth_service.dart';
 import 'package:flutter_ecoshops/widgets/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class CreateAccount extends StatelessWidget {
   const CreateAccount({Key? key}) : super(key: key);
@@ -11,6 +13,8 @@ class CreateAccount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final authServices = Provider.of<AuthService>(context);
+
     return Stack(
       children: [
         BackgroundImage(image: 'assets/bg.jpg'),
@@ -29,7 +33,7 @@ class CreateAccount extends StatelessWidget {
               ),
             ),
             title: Text(
-              'Register',
+              'Registro',
               style: kBodyText,
             ),
             centerTitle: true,
@@ -86,32 +90,54 @@ class CreateAccount extends StatelessWidget {
                   children: [
                     TextInputField(
                       icon: FontAwesomeIcons.user,
-                      hint: 'Username',
+                      hint: 'Nombre',
                       inputType: TextInputType.text,
                       inputAction: TextInputAction.next,
+                      onChanged: (value) {
+                        //userServices.currentUser.fullName = value;
+                        authServices.currentUser.fullName = value;
+                      },
                     ),
                     TextInputField(
                       icon: FontAwesomeIcons.envelope,
-                      hint: 'Email',
+                      hint: 'Correo',
                       inputType: TextInputType.emailAddress,
                       inputAction: TextInputAction.next,
+                      onChanged: (value) {
+                        //userServices.currentUser.mail = value;
+                        authServices.currentUser.mail = value;
+                      },
                     ),
                     PasswordInput(
                       icon: FontAwesomeIcons.lock,
-                      hint: 'Password',
+                      hint: 'Contraseña',
                       inputType: TextInputType.text,
                       inputAction: TextInputAction.next,
+                      onChanged: (value) {
+                        //userServices.currentUser.password = value;
+                        authServices.currentUser.password = value;
+                      },
                     ),
-                    PasswordInput(
+                    /*PasswordInput(
                       icon: FontAwesomeIcons.lock,
-                      hint: 'Confirm Password',
+                      hint: 'Confirmar contraseña',
                       inputType: TextInputType.text,
                       inputAction: TextInputAction.done,
-                    ),
+                    ),*/
                     SizedBox(
                       height: 25,
                     ),
-                    RoundedButton(buttonName: 'Register'),
+                    RoundedButton(
+                      buttonName: 'Registrarse',
+                      onPressed: () async {
+                        print('Nombre: ${authServices.currentUser.fullName}');
+                        print('Email: ${authServices.currentUser.mail}');
+                        print('Clave: ${authServices.currentUser.password}');
+                        await authServices.createAccount(context);
+                        Navigator.pushNamed(context, 'products');
+                        print("Usuario Creado");
+                      },
+                    ),
                     SizedBox(
                       height: 30,
                     ),
@@ -119,7 +145,7 @@ class CreateAccount extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Already have an account?',
+                          '¿Ya tiene una cuenta?',
                           style: kBodyText,
                         ),
                         GestureDetector(
@@ -127,7 +153,7 @@ class CreateAccount extends StatelessWidget {
                             Navigator.pushNamed(context, 'login');
                           },
                           child: Text(
-                            ' Login',
+                            ' Iniciar Sesión',
                             style: kBodyText.copyWith(
                               color: kBlue,
                               fontWeight: FontWeight.bold,

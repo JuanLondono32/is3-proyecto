@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ecoshops/palette.dart';
+import 'package:flutter_ecoshops/services/auth_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_ecoshops/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final authServices = Provider.of<AuthService>(context);
+
     return Stack(
       children: [
         BackgroundImage(
@@ -33,21 +37,27 @@ class LoginScreen extends StatelessWidget {
                 children: [
                   TextInputField(
                     icon: FontAwesomeIcons.envelope,
-                    hint: 'Email',
+                    hint: 'Correo',
                     inputType: TextInputType.emailAddress,
                     inputAction: TextInputAction.next,
+                    onChanged: (value) {
+                      authServices.currentUser.mail = value;
+                    },
                   ),
                   PasswordInput(
                     icon: FontAwesomeIcons.lock,
-                    hint: 'Password',
+                    hint: 'Contraseña',
                     inputType: TextInputType.text,
                     inputAction: TextInputAction.done,
+                    onChanged: (value) {
+                      authServices.currentUser.password = value;
+                    },
                   ),
                   GestureDetector(
                     onTap: () =>
                         Navigator.pushNamed(context, 'forgot_password'),
                     child: Text(
-                      'Forgot Password',
+                      'Olvidé mi contraseña',
                       style: kBodyText,
                     ),
                   ),
@@ -55,7 +65,11 @@ class LoginScreen extends StatelessWidget {
                     height: 25,
                   ),
                   RoundedButton(
-                    buttonName: 'Login',
+                    buttonName: 'Iniciar Sesión',
+                    onPressed: () async {
+                      await authServices.signIn(context);
+                      Navigator.pushNamed(context, 'products');
+                    },
                   ),
                   SizedBox(
                     height: 25,
@@ -66,7 +80,7 @@ class LoginScreen extends StatelessWidget {
                 onTap: () => Navigator.pushNamed(context, 'create_account'),
                 child: Container(
                   child: Text(
-                    'Create New Account',
+                    'Crear cuenta nueva',
                     style: kBodyText,
                   ),
                   decoration: BoxDecoration(
