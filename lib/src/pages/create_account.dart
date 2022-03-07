@@ -134,7 +134,7 @@ class CreateAccount extends StatelessWidget {
                         print('Email: ${authServices.currentUser.mail}');
                         print('Clave: ${authServices.currentUser.password}');
                         await authServices.createAccount(context);
-                        Navigator.pushNamed(context, 'products');
+                        Navigator.pushNamed(context, 'login');
                         print("Usuario Creado");
                       },
                     ),
@@ -155,7 +155,7 @@ class CreateAccount extends StatelessWidget {
                           child: Text(
                             ' Iniciar Sesión',
                             style: kBodyText.copyWith(
-                              color: kBlue,
+                              color: Colors.lightGreen,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
