@@ -22,6 +22,5 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'kits': (BuildContext context) => KitScreen(),
     'my_products': (BuildContext context) => MyProducts(),
     'register_product': (BuildContext context) => RegisterProductPage(),
-
   };
 }
