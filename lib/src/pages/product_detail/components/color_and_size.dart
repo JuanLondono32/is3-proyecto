@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ecoshops/models/product.dart';
 import 'package:flutter_ecoshops/constants.dart';
+
 class ColorAndSize extends StatelessWidget {
   const ColorAndSize({
     Key? key,
@@ -31,7 +32,6 @@ class ColorAndSize extends StatelessWidget {
             ],
           ),
         ),
-        
       ],
     );
   }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ecoshops/services/services.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 import 'package:provider/provider.dart';
-import 'register_entrepreneurship.dart';
+import 'register_entrepeneurship/register_entrepreneurship.dart';
 
 class UserForm extends FormBloc<String, String> {
   final select1 = SelectFieldBloc(
@@ -26,6 +26,12 @@ class UserForm extends FormBloc<String, String> {
     validators: [FieldBlocValidators.required],
   );
 
+  //New text
+  final text4 = TextFieldBloc(
+    name: 'mail',
+    validators: [FieldBlocValidators.required],
+  );
+
   final date1 = InputFieldBloc<DateTime, dynamic>(
       name: 'birth_date', toJson: (value) => Timestamp.fromDate(value!));
 
@@ -37,12 +43,14 @@ class UserForm extends FormBloc<String, String> {
     select1.updateInitialValue(authServices.currentUser.gender);
     text2.updateInitialValue(authServices.currentUser.address);
     text3.updateInitialValue(authServices.currentUser.phone.toString());
+    text4.updateInitialValue(authServices.currentUser.mail);
     date1.updateInitialValue(authServices.currentUser.birthDate);
 
     addFieldBlocs(fieldBlocs: [
       text1,
       text2,
       text3,
+      text4,
       date1,
       select1,
     ]);
@@ -128,14 +136,22 @@ class UpdateUser extends StatelessWidget {
                             prefixIcon: Icon(Icons.text_fields),
                           ),
                         ),
-                        RadioButtonGroupFieldBlocBuilder<String>(
-                          selectFieldBloc: formBloc.select1,
+                        TextFieldBlocBuilder(
+                          textFieldBloc: formBloc.text4,
                           decoration: InputDecoration(
-                            labelText: 'Género',
-                            prefixIcon: SizedBox(),
+                            labelText: 'E-mail',
+                            prefixIcon: Icon(Icons.text_fields),
                           ),
-                          itemBuilder: (context, item) => item,
                         ),
+                        // EXPROPIADO
+                        // RadioButtonGroupFieldBlocBuilder<String>(
+                        //   selectFieldBloc: formBloc.select1,
+                        //   decoration: InputDecoration(
+                        //     labelText: 'Género',
+                        //     prefixIcon: SizedBox(),
+                        //   ),
+                        //   itemBuilder: (context, item) => item,
+                        // ),
                         TextFieldBlocBuilder(
                           textFieldBloc: formBloc.text2,
                           decoration: InputDecoration(
@@ -143,14 +159,14 @@ class UpdateUser extends StatelessWidget {
                             prefixIcon: Icon(Icons.maps_home_work_outlined),
                           ),
                         ),
-                        TextFieldBlocBuilder(
-                          keyboardType: TextInputType.phone,
-                          textFieldBloc: formBloc.text3,
-                          decoration: InputDecoration(
-                            labelText: 'Celular',
-                            prefixIcon: Icon(Icons.phone_android_rounded),
-                          ),
-                        ),
+                        // TextFieldBlocBuilder(
+                        //   keyboardType: TextInputType.phone,
+                        //   textFieldBloc: formBloc.text3,
+                        //   decoration: InputDecoration(
+                        //     labelText: 'Celular',
+                        //     prefixIcon: Icon(Icons.phone_android_rounded),
+                        //   ),
+                        // ),
                         DateTimeFieldBlocBuilder(
                           dateTimeFieldBloc: formBloc.date1,
                           format: DateFormat('dd-MM-yyyy'),
@@ -162,12 +178,12 @@ class UpdateUser extends StatelessWidget {
                             prefixIcon: Icon(Icons.cake),
                           ),
                         ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              primary: Colors.lightGreen),
-                          onPressed: formBloc.submit,
-                          child: Text('Actualizar'),
-                        ),
+                        // ElevatedButton(
+                        //   style: ElevatedButton.styleFrom(
+                        //       primary: Colors.lightGreen),
+                        //   onPressed: formBloc.submit,
+                        //   child: Text('Actualizar'),
+                        // ),
                       ],
                     ),
                   ),

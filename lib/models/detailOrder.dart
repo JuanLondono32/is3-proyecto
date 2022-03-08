@@ -29,8 +29,8 @@ class DetailOrder {
       );
 
   Map<String, dynamic> toMap() => {
-        "amount": amount,
-        "final_price": finalPrice,
+        "amount": amount.toString(),
+        "final_price": finalPrice.toString(),
         "id_product": idProduct,
       };
 }

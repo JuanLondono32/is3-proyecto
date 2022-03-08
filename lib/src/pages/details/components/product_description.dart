@@ -53,7 +53,7 @@ class ProductDescription extends StatelessWidget {
                     child: Row(
                       children: [
                         Text(
-                          snapshot.data!.entrepreneurshipName,
+                          snapshot.data!.entrepreneurship_na,
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
                               color: kPrimaryColor),

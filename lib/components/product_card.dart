@@ -5,6 +5,7 @@ import 'package:flutter_ecoshops/src/pages/details/details_screen.dart';
 
 import '../../constants.dart';
 import '../../size_config.dart';
+import '../image_provider.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({
@@ -42,10 +43,7 @@ class ProductCard extends StatelessWidget {
                   ),
                   child: Hero(
                     tag: product.id.toString(),
-                    child: Image.network(
-                      product.images[0],
-                      fit: BoxFit.fill,
-                    ),
+                    child: imageFromNetWork(product.image),
                   ),
                 ),
               ),
@@ -66,27 +64,28 @@ class ProductCard extends StatelessWidget {
                       color: kPrimaryColor,
                     ),
                   ),
-                  InkWell(
-                    borderRadius: BorderRadius.circular(50),
-                    onTap: () {},
-                    child: Container(
-                      padding: EdgeInsets.all(getProportionateScreenWidth(8)),
-                      height: getProportionateScreenWidth(28),
-                      width: getProportionateScreenWidth(28),
-                      decoration: BoxDecoration(
-                        color: product.isFavourite
-                            ? kPrimaryColor.withOpacity(0.15)
-                            : kSecondaryColor.withOpacity(0.1),
-                        shape: BoxShape.circle,
-                      ),
-                      child: SvgPicture.asset(
-                        "assets/icons/Heart Icon_2.svg",
-                        color: product.isFavourite
-                            ? Color(0xFFFF4848)
-                            : Color(0xFFDBDEE4),
-                      ),
-                    ),
-                  ),
+                  //EXPROPIADO ISFAVOURITE
+                  // InkWell(
+                  //   borderRadius: BorderRadius.circular(50),
+                  //   onTap: () {},
+                  //   child: Container(
+                  //     padding: EdgeInsets.all(getProportionateScreenWidth(8)),
+                  //     height: getProportionateScreenWidth(28),
+                  //     width: getProportionateScreenWidth(28),
+                  //     decoration: BoxDecoration(
+                  //       color: product.isFavourite
+                  //           ? kPrimaryColor.withOpacity(0.15)
+                  //           : kSecondaryColor.withOpacity(0.1),
+                  //       shape: BoxShape.circle,
+                  //     ),
+                  //     child: SvgPicture.asset(
+                  //       "assets/icons/Heart Icon_2.svg",
+                  //       color: product.isFavourite
+                  //           ? Color(0xFFFF4848)
+                  //           : Color(0xFFDBDEE4),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               )
             ],

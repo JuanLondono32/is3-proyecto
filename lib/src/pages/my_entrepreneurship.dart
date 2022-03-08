@@ -63,47 +63,51 @@ class MyEntrepreneurship extends State<EntrepreneurPage> {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             image: DecorationImage(
-                                image: AssetImage(
-                                    "assets/images/eukarya_logo.jpg"),
+                                image:
+                                    AssetImage("assets/images/local_bus.png"),
                                 fit: BoxFit.cover)),
                       ),
                       SizedBox(
-                        width: 20,
+                        width: 15,
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            snapshot.data!.entrepreneurshipName,
-                            style: TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.w400),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            snapshot.data!.descpEmp,
-                            style: TextStyle(
-                                fontSize: 15, color: black.withOpacity(0.7)),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                                color: Color(0xFF9DBE76),
-                                borderRadius: BorderRadius.circular(5)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Center(
-                                child: Text(
-                                  "Editar Información",
-                                  style: TextStyle(fontSize: 15, color: white),
-                                ),
-                              ),
+                      SizedBox(
+                        width: 200,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              snapshot.data!.entrepreneurship_na,
+                              style: TextStyle(
+                                  fontSize: 22, fontWeight: FontWeight.w400),
                             ),
-                          )
-                        ],
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              snapshot.data!.descripcion_emp,
+                              style: TextStyle(
+                                  fontSize: 15, color: black.withOpacity(0.7)),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: Color(0xFF9DBE76),
+                                  borderRadius: BorderRadius.circular(5)),
+                              //EXPROPIADO
+                              // child: Padding(
+                              //   padding: const EdgeInsets.all(12.0),
+                              //   child: Center(
+                              //     child: Text(
+                              //       "Editar Información",
+                              //       style: TextStyle(fontSize: 15, color: white),
+                              //     ),
+                              //   ),
+                              // ),
+                            )
+                          ],
+                        ),
                       )
                     ],
                   ),
@@ -120,7 +124,10 @@ class MyEntrepreneurship extends State<EntrepreneurPage> {
                 ProfileMenu(
                   text: "Ventas",
                   icon: "assets/icons/shop.svg",
-                  press: () => {},
+                  press: () {
+                    Navigator.pushNamed(context, 'sales',
+                        arguments: {"id_ent": snapshot.data!.id});
+                  },
                 ),
                 ProfileMenu(
                   text: "Mis Productos",
@@ -129,13 +136,13 @@ class MyEntrepreneurship extends State<EntrepreneurPage> {
                     Navigator.pushNamed(context, 'my_products');
                   },
                 ),
-                ProfileMenu(
-                  text: "Oferta de Materia Prima",
-                  icon: "assets/icons/check.svg",
-                  press: () {
-                    Navigator.pushNamed(context, '');
-                  },
-                ),
+                // ProfileMenu(
+                //   text: "Oferta de Materia Prima",
+                //   icon: "assets/icons/check.svg",
+                //   press: () {
+                //     Navigator.pushNamed(context, 'oferta');
+                //   },
+                // ),
               ],
             );
           } else {

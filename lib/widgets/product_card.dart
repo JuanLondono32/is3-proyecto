@@ -1,153 +1,99 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ecoshops/models/models.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_ecoshops/models/product.dart';
+import 'package:flutter_ecoshops/src/pages/details/details_screen.dart';
+
+import '../../constants.dart';
+import '../../size_config.dart';
 
 class ProductCard extends StatelessWidget {
+  const ProductCard({
+    Key? key,
+    this.width = 140,
+    this.aspectRetio = 1.02,
+    required this.product,
+  }) : super(key: key);
+
+  final double width, aspectRetio;
   final Product product;
 
-  const ProductCard({Key? key, required this.product}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20),
-      child: Container(
-        margin: EdgeInsets.only(top: 30, bottom: 50),
-        width: double.infinity,
-        height: 350,
-        decoration: _cardBorders(),
-        child: Stack(
-          alignment: Alignment.bottomLeft,
-          children: [
-            _BackgroundImage(product.images[0]),
-            _ProductDetails(title: product.nameProd),
-            Positioned(top: 0, right: 0, child: _PriceTag(product.price)),
-            if (product.stock == 0)
-              Positioned(top: 0, left: 0, child: _NotAvailable())
-          ],
-        ),
-      ),
-    );
-  }
-
-  BoxDecoration _cardBorders() => BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(25),
-        boxShadow: [
-          BoxShadow(
-              color: Colors.black12, offset: Offset(0, 7), blurRadius: 10),
-        ],
-      );
-}
-
-class _NotAvailable extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: FittedBox(
-        fit: BoxFit.contain,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10),
-          child: Text(
-            'Sin inventario',
-            style: TextStyle(color: Colors.white, fontSize: 20),
+      padding: EdgeInsets.only(left: getProportionateScreenWidth(20)),
+      child: SizedBox(
+        width: getProportionateScreenWidth(width),
+        child: GestureDetector(
+          onTap: () => Navigator.pushNamed(
+            context,
+            'details',
+            arguments: ProductDetailsArguments(product: product),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AspectRatio(
+                aspectRatio: 1.02,
+                child: Container(
+                  padding: EdgeInsets.all(getProportionateScreenWidth(20)),
+                  decoration: BoxDecoration(
+                    color: kSecondaryColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Hero(
+                    tag: product.id.toString(),
+                    child: product.image != ""
+                        ? Image.network(
+                            product.image,
+                            fit: BoxFit.fill,
+                          )
+                        : Text('laura'),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                product.nameProd,
+                style: TextStyle(color: Colors.black),
+                maxLines: 2,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "\$${product.price}",
+                    style: TextStyle(
+                      fontSize: getProportionateScreenWidth(18),
+                      fontWeight: FontWeight.w600,
+                      color: kPrimaryColor,
+                    ),
+                  ),
+                  InkWell(
+                    borderRadius: BorderRadius.circular(50),
+                    onTap: () {},
+                    child: Container(
+                      padding: EdgeInsets.all(getProportionateScreenWidth(8)),
+                      height: getProportionateScreenWidth(28),
+                      width: getProportionateScreenWidth(28),
+                      decoration: BoxDecoration(
+                        color: product.isFavourite
+                            ? kPrimaryColor.withOpacity(0.15)
+                            : kSecondaryColor.withOpacity(0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: SvgPicture.asset(
+                        "assets/icons/Heart Icon_2.svg",
+                        color: product.isFavourite
+                            ? Color(0xFFFF4848)
+                            : Color(0xFFDBDEE4),
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
           ),
         ),
-      ),
-      width: 100,
-      height: 70,
-      decoration: BoxDecoration(
-          color: Colors.yellow[800],
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(25), bottomRight: Radius.circular(25))),
-    );
-  }
-}
-
-class _PriceTag extends StatelessWidget {
-  final int price;
-
-  const _PriceTag(this.price);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: FittedBox(
-        fit: BoxFit.contain,
-        child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: Text('\$$price',
-                style: TextStyle(color: Colors.white, fontSize: 20))),
-      ),
-      width: 100,
-      height: 70,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-          color: Colors.indigo,
-          borderRadius: BorderRadius.only(
-              topRight: Radius.circular(25), bottomLeft: Radius.circular(25))),
-    );
-  }
-}
-
-class _ProductDetails extends StatelessWidget {
-  final String title;
-
-  const _ProductDetails({
-    required this.title,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(right: 50),
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        width: double.infinity,
-        height: 70,
-        decoration: _buildBoxDecoration(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  BoxDecoration _buildBoxDecoration() => BoxDecoration(
-      color: Colors.indigo,
-      borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(25), topRight: Radius.circular(25)));
-}
-
-class _BackgroundImage extends StatelessWidget {
-  final String? url;
-
-  const _BackgroundImage(this.url);
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(25),
-      child: Container(
-        width: double.infinity,
-        height: 400,
-        child: url == null
-            ? Image(image: AssetImage('assets/no-image.png'), fit: BoxFit.cover)
-            : FadeInImage(
-                placeholder: AssetImage('assets/jar-loading.gif'),
-                image: NetworkImage(url!),
-                fit: BoxFit.cover,
-              ),
       ),
     );
   }

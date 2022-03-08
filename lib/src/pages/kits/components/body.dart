@@ -3,11 +3,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecoshops/constants.dart';
 import 'package:flutter_ecoshops/models/models.dart';
+import 'package:flutter_ecoshops/services/order_service.dart';
 import 'package:flutter_ecoshops/widgets/widgets.dart';
 import 'package:flutter_ecoshops/services/categories_services.dart';
 import 'package:flutter_ecoshops/src/pages/product_detail/details_screen.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../categories.dart';
+import '../../../../services/products_service.dart';
 import 'item_card.dart';
 
 class Body extends StatefulWidget {
@@ -20,9 +23,9 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    final categoriesServices = Provider.of<CategoriesService>(context);
-    List<String> categories = categoriesServices.categories.keys.toList();
-
+    final orderServices = Provider.of<OrderService>(context);
+    final prodServices = Provider.of<ProductsService>(context);
+    // List<String> categories = categoriesServices.categories.keys.toList();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -35,17 +38,17 @@ class _BodyState extends State<Body> {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
-            child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection("product")
-                  .where('category_prod', isEqualTo: categories[selectedIndex])
-                  .snapshots(),
+            child: FutureBuilder<List<Product>>(
+              future: prodServices
+                  .getProductsOfCategory(CategoryController.selectedCategory),
               builder: (context, snapshot) {
+                print('snapshot');
+                print(snapshot.data);
                 if (!snapshot.hasData) {
                   return Text('No products yet...');
                 } else {
                   return GridView.builder(
-                      itemCount: snapshot.data!.size,
+                      itemCount: snapshot.data!.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         mainAxisSpacing: kDefaultPaddin,
@@ -53,12 +56,11 @@ class _BodyState extends State<Body> {
                         childAspectRatio: 0.75,
                       ),
                       itemBuilder: (context, index) {
-                        var ref = snapshot.data!.docs[index];
-                        var newProduct =
-                            new Product.fromMap((ref.data() as dynamic));
-                        newProduct.id = ref.id;
+                        var ref = snapshot.data![index];
+                        // var newProduct = new Product.fromMap((ref as dynamic));
+                        // newProduct.id = ref.id;
                         return ItemCard(
-                          product: newProduct,
+                          product: ref,
                         );
                       });
                 }
@@ -69,7 +71,15 @@ class _BodyState extends State<Body> {
         Center(
           child: RoundedButton(
             buttonName: 'Agregar al Carrito',
-            onPressed: () {
+            onPressed: () async {
+              var prods = await prodServices
+                  .getProductsOfCategory(CategoryController.selectedCategory);
+              print(prods[0].runtimeType);
+              await Future.forEach(prods, (Product element) {
+                var newProd = element;
+                newProd.price = (element.price * 0.9).toInt();
+                orderServices.addDetail(newProd.id!, 1, newProd);
+              });
               Navigator.pushNamed(context, '/');
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text("El kit se ha agregado al carrito!"),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ecoshops/image_provider.dart';
 
 import 'package:flutter_ecoshops/src/pages/details/details_screen.dart';
 import 'package:flutter_ecoshops/models/product.dart';
@@ -36,10 +37,7 @@ class ItemCard extends StatelessWidget {
               ),
               child: Hero(
                 tag: "${product.id}",
-                child: Image.network(
-                  product.images[0],
-                  fit: BoxFit.fill,
-                ),
+                child: imageFromNetWork(product.image),
               ),
             ),
           ),

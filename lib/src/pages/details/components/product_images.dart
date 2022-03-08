@@ -4,6 +4,8 @@ import 'package:flutter_ecoshops/models/product.dart';
 import 'package:flutter_ecoshops/constants.dart';
 import 'package:flutter_ecoshops/size_config.dart';
 
+import '../../../../image_provider.dart';
+
 class ProductImages extends StatefulWidget {
   const ProductImages({
     Key? key,
@@ -27,19 +29,17 @@ class _ProductImagesState extends State<ProductImages> {
           child: AspectRatio(
             aspectRatio: 1,
             child: Hero(
-              tag: widget.product.id.toString(),
-              child: Image.network(widget.product.images[selectedImage]),
-            ),
+                tag: widget.product.id.toString(),
+                child: imageFromNetWork(widget.product.image)),
           ),
         ),
         // SizedBox(height: getProportionateScreenWidth(20)),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ...List.generate(widget.product.images.length,
-                (index) => buildSmallProductPreview(index)),
-          ],
-        )
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.center,
+        //   children: [
+        //     ...List.generate(1, (index) => buildSmallProductPreview(index)),
+        //   ],
+        // )
       ],
     );
   }
@@ -63,7 +63,7 @@ class _ProductImagesState extends State<ProductImages> {
           border: Border.all(
               color: kPrimaryColor.withOpacity(selectedImage == index ? 1 : 0)),
         ),
-        child: Image.network(widget.product.images[index]),
+        child: Image.network(widget.product.image),
       ),
     );
   }

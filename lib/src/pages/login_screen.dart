@@ -54,19 +54,21 @@ class LoginScreen extends StatelessWidget {
                       authServices.currentUser.password = value;
                     },
                   ),
-                  GestureDetector(
-                    onTap: () =>
-                        Navigator.pushNamed(context, 'forgot_password'),
-                    child: Container(
-                      child: Text(
-                        'Olvidé mi contraseña',
-                        style: kBodyText,
-                      ),
-                      decoration: BoxDecoration(
-                          border: Border(
-                              bottom: BorderSide(width: 1, color: kWhite))),
-                    ),
-                  ),
+                  // EXPROPIADO
+
+                  // GestureDetector(
+                  //   onTap: () =>
+                  //       Navigator.pushNamed(context, 'forgot_password'),
+                  //   child: Container(
+                  //     child: Text(
+                  //       'Olvidé mi contraseña',
+                  //       style: kBodyText,
+                  //     ),
+                  //     decoration: BoxDecoration(
+                  //         border: Border(
+                  //             bottom: BorderSide(width: 1, color: kWhite))),
+                  //   ),
+                  // ),
                   SizedBox(
                     height: 25,
                   ),

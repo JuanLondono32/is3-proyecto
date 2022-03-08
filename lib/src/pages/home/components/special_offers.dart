@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_ecoshops/size_config.dart';
+import '../../../../categories.dart';
+import 'categories.dart';
 import 'section_title.dart';
 
 class SpecialOffers extends StatelessWidget {
@@ -20,6 +22,7 @@ class SpecialOffers extends StatelessWidget {
             press: () {},
           ),
         ),
+        Categories(),
         SizedBox(height: getProportionateScreenWidth(20)),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
@@ -27,18 +30,18 @@ class SpecialOffers extends StatelessWidget {
             children: [
               SpecialOfferCard(
                 image: "assets/images/banner1.jpg",
-                category: "Kit 1",
+                category: "Kit ${CategoryController.selectedCategory}",
                 numOfBrands: 3,
                 press: () {
                   Navigator.pushNamed(context, 'kits');
                 },
               ),
-              SpecialOfferCard(
-                image: "assets/images/Image Banner 3.png",
-                category: "Kit 2",
-                numOfBrands: 4,
-                press: () {},
-              ),
+              // SpecialOfferCard(
+              //   image: "assets/images/Image Banner 3.png",
+              //   category: "Kit 2",
+              //   numOfBrands: 4,
+              //   press: () {},
+              // ),
               SizedBox(width: getProportionateScreenWidth(20)),
             ],
           ),

@@ -15,6 +15,7 @@ class CheckoutCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ordersService = Provider.of<OrderService>(context);
+    final entService = Provider.of<EntrepreneurshipService>(context);
     final autService = Provider.of<AuthService>(context);
 
     return Container(
@@ -84,7 +85,10 @@ class CheckoutCard extends StatelessWidget {
                   child: DefaultButton(
                     text: "Check Out",
                     press: () async {
-                      await ordersService.sendOrder(autService.currentUser);
+                      final ent = await entService
+                          .getProfileByUserId(autService.currentUser.id!);
+                      await ordersService.sendOrder(
+                          autService.currentUser, ent.id!);
                       Navigator.pop(context);
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text("La orden fue generada en el sistema!!"),
