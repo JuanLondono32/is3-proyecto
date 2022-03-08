@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
-import 'register_entrepreneurship.dart';
+import 'register_entrepeneurship/register_entrepreneurship.dart';
 
 class DonationForm extends FormBloc<String, String> {
   final text1 = TextFieldBloc(

@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_ecoshops/models/product.dart';
 import 'package:flutter_ecoshops/constants.dart';
 
-
 class AddToCart extends StatelessWidget {
   const AddToCart({
     Key? key,

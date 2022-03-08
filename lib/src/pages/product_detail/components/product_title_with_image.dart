@@ -21,13 +21,9 @@ class ProductTitleWithImage extends StatelessWidget {
             "Aristocratic Hand Bag",
             style: TextStyle(color: Colors.white),
           ),
-          Text(
-            product.nameProd,
-            style: Theme.of(context)
-                .textTheme
-                .headline4
-                //.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
+          Text(product.nameProd, style: Theme.of(context).textTheme.headline4
+              //.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
           SizedBox(height: kDefaultPaddin),
           Row(
             children: <Widget>[
@@ -36,10 +32,10 @@ class ProductTitleWithImage extends StatelessWidget {
                   children: [
                     TextSpan(text: "Price\n"),
                     TextSpan(
-                      text: "\$${product.price}",
-                      style: Theme.of(context).textTheme.headline4
-                      //.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
+                        text: "\$${product.price}",
+                        style: Theme.of(context).textTheme.headline4
+                        //.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
                   ],
                 ),
               ),
@@ -48,7 +44,7 @@ class ProductTitleWithImage extends StatelessWidget {
                 child: Hero(
                   tag: "${product.id}",
                   child: Image.asset(
-                    product.images[0],
+                    product.image,
                     fit: BoxFit.fill,
                   ),
                 ),

@@ -24,8 +24,10 @@ class _BodyState extends State<Body> {
   Widget build(BuildContext context) {
     final authServices = Provider.of<AuthService>(context);
     final entServices = Provider.of<EntrepreneurshipService>(context);
-    final Future<Entrepreneurship> profile =
+    final prodServices = Provider.of<ProductsService>(context);
+    final Future<Entrepreneurship> entrepreneurship =
         entServices.getProfileByUserId(authServices.currentUser.id!);
+    // final myProducts = prodServices.getMyProducts(entrepreneurship);
     final categoriesServices = Provider.of<CategoriesService>(context);
     List<String> categories = categoriesServices.categories.keys.toList();
 
@@ -39,27 +41,28 @@ class _BodyState extends State<Body> {
                   // .copyWith(fontWeight: FontWeight.bold),
                   ),
         ),
-        FutureBuilder(
-            future: profile,
-            builder: (BuildContext context,
-                AsyncSnapshot<Entrepreneurship> snapshot) {
-              if (snapshot.hasData) {
+        FutureBuilder<Entrepreneurship>(
+            future: entrepreneurship,
+            builder: (context, dataEnt) {
+              if (dataEnt.hasData) {
+                print(dataEnt);
+                final emp = dataEnt.data!;
+                print(emp.id);
+                final products = prodServices.getMyProducts(emp.id!);
                 return Expanded(
                   child: Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
-                    child: StreamBuilder<QuerySnapshot>(
-                      stream: FirebaseFirestore.instance
-                          .collection("product")
-                          .where('id_entrepreneurship',
-                              isEqualTo: snapshot.data!.id)
-                          .snapshots(),
+                    child: FutureBuilder<List<Product>>(
+                      future: products,
                       builder: (context, snapshot) {
+                        print('snapshot');
+                        print(snapshot.data);
                         if (!snapshot.hasData) {
                           return Text('No products yet...');
                         } else {
                           return GridView.builder(
-                              itemCount: snapshot.data!.size,
+                              itemCount: snapshot.data!.length,
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
@@ -68,12 +71,12 @@ class _BodyState extends State<Body> {
                                 childAspectRatio: 0.75,
                               ),
                               itemBuilder: (context, index) {
-                                var ref = snapshot.data!.docs[index];
-                                var newProduct = new Product.fromMap(
-                                    (ref.data() as dynamic));
-                                newProduct.id = ref.id;
+                                var ref = snapshot.data![index];
+                                // var newProduct =
+                                //     new Product.fromMap((ref as dynamic));
+                                // newProduct.id = ref.id;
                                 return ItemCard(
-                                  product: newProduct,
+                                  product: ref,
                                 );
                               });
                         }

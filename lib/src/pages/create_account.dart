@@ -14,7 +14,6 @@ class CreateAccount extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final authServices = Provider.of<AuthService>(context);
-
     return Stack(
       children: [
         BackgroundImage(image: 'assets/bg.jpg'),
@@ -98,6 +97,17 @@ class CreateAccount extends StatelessWidget {
                         authServices.currentUser.fullName = value;
                       },
                     ),
+                    // New Field: Direccion
+                    TextInputField(
+                      icon: FontAwesomeIcons.city,
+                      hint: 'Dirección',
+                      inputType: TextInputType.text,
+                      inputAction: TextInputAction.next,
+                      onChanged: (value) {
+                        //userServices.currentUser.mail = value;
+                        authServices.currentUser.address = value;
+                      },
+                    ),
                     TextInputField(
                       icon: FontAwesomeIcons.envelope,
                       hint: 'Correo',
@@ -133,6 +143,7 @@ class CreateAccount extends StatelessWidget {
                         print('Nombre: ${authServices.currentUser.fullName}');
                         print('Email: ${authServices.currentUser.mail}');
                         print('Clave: ${authServices.currentUser.password}');
+                        print('Dirección: ${authServices.currentUser.address}');
                         await authServices.createAccount(context);
                         Navigator.pushNamed(context, 'login');
                         print("Usuario Creado");

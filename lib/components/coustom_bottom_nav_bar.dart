@@ -45,24 +45,25 @@ class CustomBottomNavBar extends StatelessWidget {
                       ? kPrimaryColor
                       : inActiveIconColor,
                 ),
-                onPressed: () =>
-                    Navigator.pushNamed(context, "/"),
+                onPressed: () => Navigator.pushNamed(context, "/"),
               ),
-              IconButton(
-                icon: SvgPicture.asset("assets/icons/Heart Icon.svg",
-                  color: MenuState.favourite == selectedMenu
-                      ? kPrimaryColor
-                      : inActiveIconColor,),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: SvgPicture.asset("assets/icons/gift.svg",
-                  color: MenuState.products == selectedMenu
-                      ? kPrimaryColor
-                      : inActiveIconColor,),
-                onPressed: () =>
-                    Navigator.pushNamed(context, "products"),
-              ),
+              // EXPROPIADO ISFAVOURITE
+              // IconButton(
+              //   icon: SvgPicture.asset("assets/icons/Heart Icon.svg",
+              //     color: MenuState.favourite == selectedMenu
+              //         ? kPrimaryColor
+              //         : inActiveIconColor,),
+              //   onPressed: () {},
+              // ),
+              // IconButton(
+              //   icon: SvgPicture.asset(
+              //     "assets/icons/gift.svg",
+              //     color: MenuState.products == selectedMenu
+              //         ? kPrimaryColor
+              //         : inActiveIconColor,
+              //   ),
+              //   onPressed: () => Navigator.pushNamed(context, "products"),
+              // ),
               IconButton(
                 icon: SvgPicture.asset(
                   "assets/icons/User Icon.svg",
@@ -70,8 +71,7 @@ class CustomBottomNavBar extends StatelessWidget {
                       ? kPrimaryColor
                       : inActiveIconColor,
                 ),
-                onPressed: () =>
-                    Navigator.pushNamed(context, 'profile'),
+                onPressed: () => Navigator.pushNamed(context, 'profile'),
               ),
             ],
           )),

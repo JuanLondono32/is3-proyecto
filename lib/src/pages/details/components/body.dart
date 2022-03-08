@@ -5,6 +5,7 @@ import 'package:flutter_ecoshops/services/services.dart';
 import 'package:flutter_ecoshops/size_config.dart';
 import 'package:provider/provider.dart';
 
+import '../../entrepeneurships/components/item_card.dart';
 import 'color_dots.dart';
 import 'product_description.dart';
 import 'top_rounded_container.dart';
@@ -18,7 +19,6 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ordersService = Provider.of<OrderService>(context);
-
     return ListView(
       children: [
         ProductImages(product: product),

@@ -16,13 +16,13 @@ class Account {
   });
 
   String? address;
-  DateTime birthDate;
+  DateTime? birthDate;
   String? fullName;
   String? gender;
   String mail;
   String password;
   int? phone;
-  String role;
+  String? role;
   String? id;
 
   factory Account.fromJson(String str) => Account.fromMap(json.decode(str));
@@ -32,8 +32,8 @@ class Account {
   factory Account.fromMap(Map<String, dynamic> json) => Account(
         address: json["address"],
         //birthDate: DateTime.parse(json["birth_date"]),
-        birthDate: json["birth_date"].toDate(),
-        fullName: json["full_name"],
+        birthDate: json["birthDate"]?.toDate(),
+        fullName: json["fullName"],
         gender: json["gender"],
         mail: json["mail"],
         password: json["password"],
@@ -45,8 +45,8 @@ class Account {
         "address": address,
         // "birth_date":
         //     "${birthDate.year.toString().padLeft(4, '0')}-${birthDate.month.toString().padLeft(2, '0')}-${birthDate.day.toString().padLeft(2, '0')}",
-        'birth_date': Timestamp.fromDate(birthDate),
-        "full_name": fullName,
+        'birthDate': birthDate != null ? Timestamp.fromDate(birthDate!) : "",
+        "fullName": fullName,
         "gender": gender,
         "mail": mail,
         "password": password,

@@ -10,19 +10,15 @@ class CategoriesService extends ChangeNotifier {
 
   bool isLoading = false;
 
-  CategoriesService() {
-    this._categories = _firestore.collection('category');
-    this.loadCategories();
-    sleep(Duration(seconds: 3));
-  }
+  CategoriesService();
 
-  Future loadCategories() async {
-    await _categories
-        .get()
-        .then((QuerySnapshot snapshot) => snapshot.docs.forEach((doc) {
-              var name = (doc.data() as dynamic)["name_category"];
-              var icon = (doc.data() as dynamic)["icon_name"];
-              categories[name] = icon;
-            }));
-  }
+  // Future loadCategories() async {
+  //   await _categories
+  //       .get()
+  //       .then((QuerySnapshot snapshot) => snapshot.docs.forEach((doc) {
+  //             var name = (doc.data() as dynamic)["name_category"];
+  //             var icon = (doc.data() as dynamic)["icon_name"];
+  //             categories[name] = icon;
+  //           }));
+  // }
 }
