@@ -10,7 +10,7 @@ class EntershipRepository {
   final _apiUrl = Env.apiUrl;
   registerEntrepreneurship(
       {required String id_user,
-      required bool be_on_kit,
+      required String be_on_kit,
       required String description_emp,
       required String emp_name,
       String? max_discount,
@@ -19,7 +19,7 @@ class EntershipRepository {
       String? social_media}) async {
     try {
       final body = {
-        "be_on_kit": be_on_kit.toString(),
+        "be_on_kit": be_on_kit,
         "id_user": id_user,
         "descripcion_emp": description_emp,
         "entrepreneurship_name": emp_name,

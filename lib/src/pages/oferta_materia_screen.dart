@@ -56,7 +56,7 @@ class _BodyState extends State<BodyOferta> {
     final authServices = Provider.of<AuthService>(context);
     final entServices = Provider.of<EntrepreneurshipService>(context);
     final Future<Entrepreneurship> profile =
-        entServices.getProfileByUserId(authServices.currentUser.id!);
+        entServices.getProfileByUserId(authServices.currentUser!.id!);
     final ofertas_prueba = [
       {
         'direccion': "Cra 12",

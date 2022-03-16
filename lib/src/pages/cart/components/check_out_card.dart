@@ -86,9 +86,9 @@ class CheckoutCard extends StatelessWidget {
                     text: "Check Out",
                     press: () async {
                       final ent = await entService
-                          .getProfileByUserId(autService.currentUser.id!);
+                          .getProfileByUserId(autService.currentUser!.id!);
                       await ordersService.sendOrder(
-                          autService.currentUser, ent.id!);
+                          autService.currentUser!, ent.id!);
                       Navigator.pop(context);
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text("La orden fue generada en el sistema!!"),

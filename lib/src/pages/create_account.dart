@@ -94,7 +94,7 @@ class CreateAccount extends StatelessWidget {
                       inputAction: TextInputAction.next,
                       onChanged: (value) {
                         //userServices.currentUser.fullName = value;
-                        authServices.currentUser.fullName = value;
+                        authServices.currentUser!.fullName = value;
                       },
                     ),
                     // New Field: Direccion
@@ -105,7 +105,7 @@ class CreateAccount extends StatelessWidget {
                       inputAction: TextInputAction.next,
                       onChanged: (value) {
                         //userServices.currentUser.mail = value;
-                        authServices.currentUser.address = value;
+                        authServices.currentUser!.address = value;
                       },
                     ),
                     TextInputField(
@@ -115,7 +115,7 @@ class CreateAccount extends StatelessWidget {
                       inputAction: TextInputAction.next,
                       onChanged: (value) {
                         //userServices.currentUser.mail = value;
-                        authServices.currentUser.mail = value;
+                        authServices.currentUser!.mail = value;
                       },
                     ),
                     PasswordInput(
@@ -125,7 +125,7 @@ class CreateAccount extends StatelessWidget {
                       inputAction: TextInputAction.next,
                       onChanged: (value) {
                         //userServices.currentUser.password = value;
-                        authServices.currentUser.password = value;
+                        authServices.currentUser!.password = value;
                       },
                     ),
                     /*PasswordInput(
@@ -140,10 +140,11 @@ class CreateAccount extends StatelessWidget {
                     RoundedButton(
                       buttonName: 'Registrarse',
                       onPressed: () async {
-                        print('Nombre: ${authServices.currentUser.fullName}');
-                        print('Email: ${authServices.currentUser.mail}');
-                        print('Clave: ${authServices.currentUser.password}');
-                        print('Dirección: ${authServices.currentUser.address}');
+                        print('Nombre: ${authServices.currentUser!.fullName}');
+                        print('Email: ${authServices.currentUser!.mail}');
+                        print('Clave: ${authServices.currentUser!.password}');
+                        print(
+                            'Dirección: ${authServices.currentUser!.address}');
                         await authServices.createAccount(context);
                         Navigator.pushNamed(context, 'login');
                         print("Usuario Creado");

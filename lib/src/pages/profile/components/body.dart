@@ -29,7 +29,7 @@ class Body extends StatelessWidget {
               Navigator.pushNamed(context, 'orders');
             },
           ),
-          (authServices.currentUser.role == "e")
+          (authServices.currentUser!.role == "e")
               ? ProfileMenu(
                   text: "Mi emprendimiento",
                   icon: "assets/icons/shop.svg",

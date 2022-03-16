@@ -42,7 +42,7 @@ class LoginScreen extends StatelessWidget {
                     inputType: TextInputType.emailAddress,
                     inputAction: TextInputAction.next,
                     onChanged: (value) {
-                      authServices.currentUser.mail = value;
+                      authServices.currentUser!.mail = value;
                     },
                   ),
                   PasswordInput(
@@ -51,7 +51,7 @@ class LoginScreen extends StatelessWidget {
                     inputType: TextInputType.text,
                     inputAction: TextInputAction.done,
                     onChanged: (value) {
-                      authServices.currentUser.password = value;
+                      authServices.currentUser!.password = value;
                     },
                   ),
                   // EXPROPIADO

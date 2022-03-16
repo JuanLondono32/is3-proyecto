@@ -35,7 +35,7 @@ class RegisterProduct extends State<RegisterProductPage> {
     final prodServices = Provider.of<ProductsService>(context);
     return BlocProvider(
       create: (context) =>
-          Fields(entServices, authServices.currentUser.id!, prodServices),
+          Fields(entServices, authServices.currentUser!.id!, prodServices),
       child: Builder(
         builder: (context) {
           final formBloc = BlocProvider.of<Fields>(context);
@@ -61,7 +61,7 @@ class RegisterProduct extends State<RegisterProductPage> {
                 onSuccess: (context, state) {
                   LoadingDialog.hide(context);
 
-                  authServices.currentUser.role = 'e';
+                  authServices.currentUser!.role = 'e';
 
                   Navigator.pop(context);
                   Navigator.pop(context);

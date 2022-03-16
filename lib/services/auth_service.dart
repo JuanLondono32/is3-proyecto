@@ -13,7 +13,7 @@ class AuthService extends ChangeNotifier {
   final AuthRepository _authRepository = AuthRepository();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   late CollectionReference _users;
-  late Account currentUser;
+  Account? currentUser;
 
   AuthService() {
     init();
@@ -23,11 +23,10 @@ class AuthService extends ChangeNotifier {
         password: '',
         role: 'c',
         address: '');
-    this._users = _firestore.collection('user');
   }
 
   Future<void> init() async {
-    if (this.currentUser.id != null) {
+    if (this.currentUser != null && this.currentUser!.id != null) {
       print('Users is logged');
     }
   }
@@ -35,10 +34,10 @@ class AuthService extends ChangeNotifier {
   Future createAccount(BuildContext context) async {
     try {
       final resp = await _authRepository.createUserWithEmailAndPassword(
-          email: currentUser.mail,
-          password: currentUser.password,
-          name: currentUser.fullName,
-          direc: currentUser.address!);
+          email: currentUser!.mail,
+          password: currentUser!.password,
+          name: currentUser!.fullName,
+          direc: currentUser!.address!);
       if (resp) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Usuario registrado con éxito'),
@@ -88,8 +87,8 @@ class AuthService extends ChangeNotifier {
   Future<bool> signIn(BuildContext context) async {
     try {
       final resp = await _authRepository.signInWithEmailAndPassword(
-        email: currentUser.mail,
-        password: currentUser.password,
+        email: currentUser!.mail,
+        password: currentUser!.password,
       );
       if (resp != {}) {
         // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -98,8 +97,8 @@ class AuthService extends ChangeNotifier {
         //   backgroundColor: Colors.lightGreen,
 
         this.currentUser = new Account.fromMap(resp as dynamic);
-        this.currentUser.id = resp["_id"];
-        print(currentUser.id);
+        this.currentUser!.id = resp["_id"];
+        print(currentUser!.id);
         return true;
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -148,10 +147,10 @@ class AuthService extends ChangeNotifier {
 
   Future updateUser(Map updates) async {
     // obtener current_user como mapa
-    var userID = this.currentUser.id;
+    var userID = this.currentUser!.id;
     print(userID);
 
-    var cUser = this.currentUser.toMap();
+    var cUser = this.currentUser!.toMap();
     print(cUser);
     updates.keys.forEach((key) {
       cUser[key] = updates[key];
@@ -161,12 +160,12 @@ class AuthService extends ChangeNotifier {
     // Actualizando el current_user
     print("Antes actualizar");
     this.currentUser = Account.fromMap(cUser);
-    this.currentUser.id = userID;
+    this.currentUser!.id = userID;
     print("Después actualizar");
 
     // Actualizando la base de datos
     print("Antes BD");
-    await _users.doc(userID).set(this.currentUser.toMap());
+    await _users.doc(userID).set(this.currentUser!.toMap());
     print("Después BD");
   }
 

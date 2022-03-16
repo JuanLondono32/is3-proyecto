@@ -130,7 +130,7 @@ class RegisterEntrepreneurship extends StatelessWidget {
     final entServices = Provider.of<EntrepreneurshipService>(context);
     return BlocProvider(
       create: (context) =>
-          AllFieldsFormBloc(entServices, authServices.currentUser.id!),
+          AllFieldsFormBloc(entServices, authServices.currentUser!.id!),
       child: Builder(
         builder: (context) {
           final formBloc = BlocProvider.of<AllFieldsFormBloc>(context);
@@ -156,7 +156,7 @@ class RegisterEntrepreneurship extends StatelessWidget {
                 onSuccess: (context, state) {
                   LoadingDialog.hide(context);
 
-                  authServices.currentUser.role = 'e';
+                  authServices.currentUser!.role = 'e';
 
                   Navigator.pop(context);
                   Navigator.pop(context);
@@ -249,7 +249,7 @@ class RegisterEntrepreneurship extends StatelessWidget {
                           style: ElevatedButton.styleFrom(
                               primary: Colors.lightGreen),
                           onPressed: formBloc.submit,
-                          child: Text('Registrar'),
+                          child: Text('Registrar asds'),
                         ),
                       ],
                     ),

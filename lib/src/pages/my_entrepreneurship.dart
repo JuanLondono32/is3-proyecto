@@ -17,7 +17,7 @@ class MyEntrepreneurship extends State<EntrepreneurPage> {
     final authServices = Provider.of<AuthService>(context);
     final entServices = Provider.of<EntrepreneurshipService>(context);
     final Future<Entrepreneurship> profile =
-        entServices.getProfileByUserId(authServices.currentUser.id!);
+        entServices.getProfileByUserId(authServices.currentUser!.id!);
     return Scaffold(
       backgroundColor: white,
       appBar: AppBar(

@@ -7,9 +7,13 @@ class PopularProductsBloc {
   final ProductRepository _productRepository = ProductRepository();
 
   Future<List<dynamic>> getProductos() async {
-    final productos = await _productRepository.getProducts();
-    print(productos[0].runtimeType);
-    print(productos.runtimeType);
-    return productos;
+    try {
+      final productos = await _productRepository.getProducts();
+      print(productos[0].runtimeType);
+      print(productos.runtimeType);
+      return productos;
+    } catch (e) {
+      return [];
+    }
   }
 }

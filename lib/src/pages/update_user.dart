@@ -39,12 +39,12 @@ class UserForm extends FormBloc<String, String> {
 
   UserForm(AuthService auth) {
     authServices = auth;
-    text1.updateInitialValue(authServices.currentUser.fullName);
-    select1.updateInitialValue(authServices.currentUser.gender);
-    text2.updateInitialValue(authServices.currentUser.address);
-    text3.updateInitialValue(authServices.currentUser.phone.toString());
-    text4.updateInitialValue(authServices.currentUser.mail);
-    date1.updateInitialValue(authServices.currentUser.birthDate);
+    text1.updateInitialValue(authServices.currentUser!.fullName);
+    select1.updateInitialValue(authServices.currentUser!.gender);
+    text2.updateInitialValue(authServices.currentUser!.address);
+    text3.updateInitialValue(authServices.currentUser!.phone.toString());
+    text4.updateInitialValue(authServices.currentUser!.mail);
+    date1.updateInitialValue(authServices.currentUser!.birthDate);
 
     addFieldBlocs(fieldBlocs: [
       text1,

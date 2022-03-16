@@ -54,7 +54,7 @@ class _BodyState extends State<BodyOrder> {
   Widget build(BuildContext context) {
     final authServices = Provider.of<AuthService>(context);
     final orderServices = Provider.of<OrderService>(context);
-    final lista = orderServices.getOrders(authServices.currentUser.id!);
+    final lista = orderServices.getOrders(authServices.currentUser!.id!);
 
     final ordenes_prueba = [
       {

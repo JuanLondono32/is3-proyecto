@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ecoshops/formstatus.dart';
 import 'package:flutter_ecoshops/services/services.dart';
+import 'package:flutter_ecoshops/src/pages/register_entrepeneurship/be_on_kits_builder.dart';
+import 'package:flutter_ecoshops/src/pages/register_entrepeneurship/cubit/register_cubit.dart';
 import 'package:flutter_ecoshops/src/pages/register_entrepeneurship/register_bloc.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 import 'package:provider/provider.dart';
@@ -11,137 +14,166 @@ class RegisterEntrepreneurship extends StatelessWidget {
     final entServices = Provider.of<EntrepreneurshipService>(context);
     return BlocProvider(
       create: (context) =>
-          AllFieldsFormBloc(entServices, authServices.currentUser.id!),
-      child: Builder(
-        builder: (context) {
-          final formBloc = BlocProvider.of<AllFieldsFormBloc>(context);
+          AllFieldsFormBloc(entServices, authServices.currentUser!.id!),
+      child: BlocProvider(
+        create: (context) => RegisterCubit(
+            entServices: entServices, userID: authServices.currentUser!.id!),
+        child: Builder(
+          builder: (context) {
+            final formCubit = BlocProvider.of<RegisterCubit>(context);
 
-          return Theme(
-            data: Theme.of(context).copyWith(
-              inputDecorationTheme: InputDecorationTheme(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+            return Theme(
+              data: Theme.of(context).copyWith(
+                inputDecorationTheme: InputDecorationTheme(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                 ),
               ),
-            ),
-            child: Scaffold(
-              appBar: AppBar(
-                title: Text('Registrar Emprendimiento',
-                    style: TextStyle(color: Colors.black)),
-                backgroundColor: Colors.lightGreen,
-              ),
-              body: FormBlocListener<AllFieldsFormBloc, String, String>(
-                onSubmitting: (context, state) {
-                  LoadingDialog.show(context);
-                },
-                onSuccess: (context, state) {
-                  LoadingDialog.hide(context);
+              child: Scaffold(
+                appBar: AppBar(
+                  title: Text('Registrar Emprendimiento',
+                      style: TextStyle(color: Colors.black)),
+                  backgroundColor: Colors.lightGreen,
+                ),
+                body: BlocListener<RegisterCubit, RegisterState>(
+                  listener: (context, state) {
+                    if (state.isSubmittedSuccess ==
+                        FormStatus.submissionInProgress) {
+                      LoadingDialog.show(context);
+                    }
+                    if (state.isSubmittedSuccess ==
+                        FormStatus.submissionSuccess) {
+                      LoadingDialog.hide(context);
 
-                  authServices.currentUser.role = 'e';
+                      authServices.currentUser!.role = 'e';
 
-                  Navigator.pop(context);
-                  Navigator.pop(context);
+                      Navigator.pop(context);
+                      Navigator.pop(context);
 
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(
-                        "Los datos de usuario fueron actualizados correctamente."),
-                    duration: Duration(seconds: 2),
-                    backgroundColor: Colors.lightGreen,
-                  ));
-                },
-                onFailure: (context, state) {
-                  LoadingDialog.hide(context);
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(
+                            "Los datos de usuario fueron actualizados correctamente."),
+                        duration: Duration(seconds: 2),
+                        backgroundColor: Colors.lightGreen,
+                      ));
+                    }
+                    if (state.isSubmittedSuccess ==
+                        FormStatus.submissionFailure) {
+                      LoadingDialog.hide(context);
 
-                  Scaffold.of(context).showSnackBar(
-                      SnackBar(content: Text(state.failureResponse!)));
-                },
-                child: SingleChildScrollView(
-                  physics: ClampingScrollPhysics(),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: <Widget>[
-                        TextFieldBlocBuilder(
-                          textFieldBloc: formBloc.text1,
-                          decoration: InputDecoration(
-                            labelText: 'Nombre Emprendimiento',
-                            prefixIcon: Icon(Icons.text_fields),
+                      Scaffold.of(context)
+                          .showSnackBar(SnackBar(content: Text('Error')));
+                    }
+                  },
+                  child: SingleChildScrollView(
+                    physics: ClampingScrollPhysics(),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: <Widget>[
+                          TextField(
+                            onChanged: (value) {
+                              formCubit.nombEmpChange(value);
+                            },
+                            // textFieldBloc: formBloc.text1,
+                            decoration: InputDecoration(
+                              labelText: 'Nombre Emprendimiento',
+                              prefixIcon: Icon(Icons.text_fields),
+                            ),
                           ),
-                        ),
-                        TextFieldBlocBuilder(
-                          textFieldBloc: formBloc.text2,
-                          decoration: InputDecoration(
-                            labelText: 'Usuario Redes Sociales',
-                            prefixIcon: Icon(Icons.text_fields),
+                          TextField(
+                            onChanged: (value) {
+                              formCubit.userSocialChange(value);
+                            },
+                            decoration: InputDecoration(
+                              labelText: 'Usuario Redes Sociales',
+                              prefixIcon: Icon(Icons.text_fields),
+                            ),
                           ),
-                        ),
-                        TextFieldBlocBuilder(
-                          maxLines: 5,
-                          textFieldBloc: formBloc.text3,
-                          decoration: InputDecoration(
-                            labelText: 'Descripción',
-                            prefixIcon: Icon(Icons.text_fields),
+                          TextField(
+                            onChanged: (value) {
+                              formCubit.descEmpChange(value);
+                            },
+                            maxLines: 5,
+                            decoration: InputDecoration(
+                              labelText: 'Descripción',
+                              prefixIcon: Icon(Icons.text_fields),
+                            ),
                           ),
-                        ),
-                        RadioButtonGroupFieldBlocBuilder(
-                          selectFieldBloc: formBloc.beOnKits,
-                          itemBuilder: (context, dynamic value) => value,
-                          decoration: InputDecoration(
-                            labelText: '¿Desea hacer parte de los kits?',
-                            prefixIcon: SizedBox(),
+                          BeOnKitsBuilder(),
+                          // RadioButtonGroupFieldBlocBuilder(
+                          //   itemBuilder: (context, dynamic value) => value,
+                          //   decoration: InputDecoration(
+                          //     labelText: '¿Desea hacer parte de los kits? aaaa',
+                          //     prefixIcon: SizedBox(),
+                          //   ),
+                          // ),
+                          TextField(
+                            onChanged: (value) {
+                              formCubit.minDiscChange(value);
+                            },
+                            keyboardType: TextInputType.number,
+                            maxLines: 1,
+                            decoration: InputDecoration(
+                              labelText: 'Descuento Mínimo',
+                              prefixIcon: Icon(Icons.attach_money_rounded),
+                            ),
                           ),
-                        ),
-                        TextFieldBlocBuilder(
-                          textFieldBloc: formBloc.minDisc,
-                          keyboardType: TextInputType.number,
-                          maxLines: 1,
-                          decoration: InputDecoration(
-                            labelText: 'Descuento Mínimo',
-                            prefixIcon: Icon(Icons.attach_money_rounded),
+                          TextField(
+                            onChanged: (value) {
+                              formCubit.maxDiscChange(value);
+                            },
+                            keyboardType: TextInputType.number,
+                            maxLines: 1,
+                            decoration: InputDecoration(
+                              labelText: 'Descuento Máximo',
+                              prefixIcon: Icon(Icons.attach_money_rounded),
+                            ),
                           ),
-                        ),
-                        TextFieldBlocBuilder(
-                          textFieldBloc: formBloc.maxDisc,
-                          keyboardType: TextInputType.number,
-                          maxLines: 1,
-                          decoration: InputDecoration(
-                            labelText: 'Descuento Máximo',
-                            prefixIcon: Icon(Icons.attach_money_rounded),
-                          ),
-                        ),
 
-                        //EXPROPIADO
-                        // RadioButtonGroupFieldBlocBuilder(
-                        //   selectFieldBloc: formBloc.rawMaterial,
-                        //   itemBuilder: (context, dynamic value) => value,
-                        //   decoration: InputDecoration(
-                        //     labelText: '¿Desea recibir materia prima?',
-                        //     prefixIcon: SizedBox(),
-                        //   ),
-                        // ),
-                        TextFieldBlocBuilder(
-                          textFieldBloc: formBloc.descRawMaterial,
-                          keyboardType: TextInputType.text,
-                          maxLines: 5,
-                          decoration: InputDecoration(
-                            labelText: 'Descripción Materia Prima',
-                            prefixIcon: Icon(Icons.text_fields),
+                          //EXPROPIADO
+                          // RadioButtonGroupFieldBlocBuilder(
+                          //   selectFieldBloc: formBloc.rawMaterial,
+                          //   itemBuilder: (context, dynamic value) => value,
+                          //   decoration: InputDecoration(
+                          //     labelText: '¿Desea recibir materia prima?',
+                          //     prefixIcon: SizedBox(),
+                          //   ),
+                          // ),
+                          // TextFieldBlocBuilder(
+                          //   textFieldBloc: formBloc.descRawMaterial,
+                          //   keyboardType: TextInputType.text,
+                          //   maxLines: 5,
+                          //   decoration: InputDecoration(
+                          //     labelText: 'Descripción Materia Prima',
+                          //     prefixIcon: Icon(Icons.text_fields),
+                          //   ),
+                          // ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                primary: Colors.lightGreen),
+                            //onPressed: formBloc.submit,
+                            onPressed: () {
+                              try {
+                                print("si sirve");
+                                formCubit.submit();
+                              } catch (e) {
+                                print("error");
+                                print(e);
+                              }
+                            },
+                            child: Text('Registrar asd'),
                           ),
-                        ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              primary: Colors.lightGreen),
-                          onPressed: formBloc.submit,
-                          child: Text('Registrar'),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

@@ -36,6 +36,7 @@ class EntrepreneurshipService extends ChangeNotifier {
           min_discount: newEntrep["min_discount"],
           raw_materials: newEntrep["raw_materials"],
           social_media: newEntrep["user_social_media"]);
+      print(resp);
     } catch (e) {
       print(e);
     }

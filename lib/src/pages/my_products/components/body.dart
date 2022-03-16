@@ -26,7 +26,7 @@ class _BodyState extends State<Body> {
     final entServices = Provider.of<EntrepreneurshipService>(context);
     final prodServices = Provider.of<ProductsService>(context);
     final Future<Entrepreneurship> entrepreneurship =
-        entServices.getProfileByUserId(authServices.currentUser.id!);
+        entServices.getProfileByUserId(authServices.currentUser!.id!);
     // final myProducts = prodServices.getMyProducts(entrepreneurship);
     final categoriesServices = Provider.of<CategoriesService>(context);
     List<String> categories = categoriesServices.categories.keys.toList();

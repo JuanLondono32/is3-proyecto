@@ -1,4 +1,4 @@
 class Env {
-  static const apiUrl = "http://192.168.20.41:4002/api";
-  static const urlImage = "http://192.168.20.41:4002/";
+  static const apiUrl = "http://34.122.48.229:30100/api";
+  static const urlImage = "http://34.122.48.229:30100/";
 }
